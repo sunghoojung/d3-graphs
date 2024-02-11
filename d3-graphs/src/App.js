@@ -1,25 +1,36 @@
-import logo from './logo.svg';
 import './App.css';
-import * as d3 from d3
-d3.sum([1, 2, 3, -0.5])
+import * as d3 from 'd3'
+
 
 function App() {
+  function update(data) {
+    d3.select('#content tbody')
+      .selectAll('tr')
+      .data(data)
+      .join('tr')
+      .html(function(d) {
+        let html = '<tr>';
+        html += '<td>' + d.Gender + '</td>';
+        html += '<td>' + d.Married + '</td>';
+        html += '<td>' + d.Dependents + '</td>';
+        html += '<td>' + d.Education + '</td>';
+        html += '</tr>';
+        return html;
+      });
+  }
+    d3.csv('https://docs.google.com/spreadsheets/d/e/2PACX-1vQW061NYWMorsgLroQ1uZKaYoJoYpivCWQfeV-DJiwFXjmVqlfGcNsZecJ0oJPv8hHT8wZ6FqcF8ssS/pub?gid=597311038&single=true&output=csv')
+	    .then(function(data) {
+	    	update(data);
+	    });
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div id="content" class="text-sm font-sans p-2 border-b-1">
+      <table>
+	    <thead class="font-bold">
+	      <td>Gender</td><td>Married</td><td>Dependents</td><td>Education</td>
+	    </thead>
+	    <tbody>
+	    </tbody>
+      </table>
     </div>
   );
 }
